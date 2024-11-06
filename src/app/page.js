@@ -1,131 +1,275 @@
-import Head from 'next/head';
-import { Button } from '@shadcn/ui';
+'use client'
+import HeadingText from '@/components/HeadingText';
+import MaxWidthWrapper from '@/components/MaxWidthWrapper';
+import { ShineyButton } from '@/components/shaynibutton';
+import { buttonVariants } from '@/components/ui/button';
+import { Box, Check, Keyboard, PillBottle, Star, Umbrella, Wind, WindIcon } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+
+const ListOfSolutions = [
+  "Detachable bottle for dual-purpose use",
+  "Cooling system with top-mounted fan for hot seasons",
+  "Humidity control to keep you refreshed",
+  "Water storage for convenience in cold weather",
+  "Portable and versatile design",
+];
+
+const features = [
+  {
+    title: "Windproof Design",
+    description: "Built to withstand strong winds, ensuring it won’t flip inside out even in harsh weather.",
+    icon: <Wind/>, // Lucid icon for wind
+  },
+  {
+    title: "Lightweight and Compact",
+    description: "Designed for easy carrying and storage, making it perfect for travel and daily use.",
+    icon: <Box/>, // Lucid icon for box (representing compactness)
+  },
+  {
+    title: "Advanced Water Resistance",
+    description: "Offers superior protection against rain, keeping you dry in even the heaviest downpours.",
+    icon: <Umbrella/>, // Lucid icon for umbrella
+  },
+  {
+    title: "Automatic Open/Close",
+    description: "Effortlessly open and close the umbrella with a simple push of a button for quick use.",
+    icon: <Keyboard/>, // Lucid icon for keyboard (to symbolize the button mechanism)
+  },
+  {
+    title: "Detachable Bottle System",
+    description: "Use the detachable bottle for cooling mist in hot weather or water storage during colder seasons.",
+    icon: <PillBottle/>, // Lucid icon for cup (to represent the bottle)
+  },
+  {
+    title: "Cooling Fan System",
+    description: "Integrated fan delivers a refreshing breeze to keep you cool on hot, sunny days.",
+    icon: <WindIcon/>, // Lucid icon for wind (to symbolize cooling)
+  },
+];
+
 
 export default function Home() {
-  return (
-    <div>
-      <Head>
-        <title>Innovative Umbrella</title>
-        <meta name="description" content="Experience the most advanced umbrella with cutting-edge technology, durability, and style." />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+  const [isModalOpen, setModalOpen] = useState(false);
 
+  const handleOrderNowClick = () => {
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+  return (
+    <>
       <main className="min-h-screen">
         {/* Hero Section */}
-        <section className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white py-20">
-          <div className="container mx-auto text-center">
-            <h1 className="text-5xl font-bold mb-4">Revolutionize Your Rainy Days</h1>
-            <p className="text-lg mb-6">Discover the world's most innovative umbrella designed for ultimate protection, smart features, and style.</p>
-            <Button className="bg-white text-blue-600 hover:bg-blue-200 px-8 py-3">Order Now</Button>
-          </div>
-        </section>
+        <section className="relative flex items-center justify-center text-white py-20 min-h-screen bg-contain bg-center" style={{ backgroundImage: "url('/anenna.jpg')" }}>
+      <div className="absolute inset-0 bg-black/50"></div> {/* Overlay for better text readability */}
+      
+      <div className="relative z-10 max-w-3xl mx-auto px-6 md:px-12 text-center">
+        <h1 className="text-4xl sm:text-5xl font-bold leading-tight">
+          <span className="text-blue-300 font-mono">Revolutionize</span> Your Rainy Days
+        </h1>
+        <p className="mt-5 text-lg sm:text-xl text-white/90">
+          Experience the Liyu Umbrella with its detachable bottle system designed to refresh you in hot weather and store water during cold seasons.
+        </p>
 
+        <div className="w-full max-w-xs mt-8 mx-auto">
+          <button 
+            onClick={handleOrderNowClick} 
+            className=  "group w-60 h-16 mt-5 relative flex transform items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-md  bg-blue-700 px-8 text-base/7 font-medium text-white transition-all duration-300 hover:ring-2 hover:ring-blue-700 hover:ring-offset-2 focus:outline-none focus:ring-2 focus:ring-offset-2"
+          >
+              Get Yours Today!
+          <div className="ease-[cubic-bezier(0.19,1,0.22,1)] absolute -left-[75px] -top-[50px] -z-10 h-[155px] w-8 rotate-[35deg] bg-white opacity-20 transition-all duration-500 group-hover:left-[120px]" />
+            </button>
+        </div>
+      </div>
+        </section>
+     
         {/* About Section */}
-        <section className="py-16 bg-white text-gray-700">
-          <div className="container mx-auto px-6">
-            <h2 className="text-4xl font-bold text-center mb-8">About Our Innovative Umbrella</h2>
-            <p className="text-center mb-8">Our umbrella combines cutting-edge technology with modern design to provide unparalleled protection from the elements. Built with high-grade materials, it ensures durability and convenience, making it the perfect companion for any weather condition.</p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="text-center">
-                <img src="/images/durability.svg" alt="Durability" className="mx-auto w-16 mb-4" />
-                <h3 className="text-xl font-semibold">Superior Durability</h3>
-                <p>Engineered to withstand the toughest conditions.</p>
-              </div>
-              <div className="text-center">
-                <img src="/images/technology.svg" alt="Technology" className="mx-auto w-16 mb-4" />
-                <h3 className="text-xl font-semibold">Smart Technology</h3>
-                <p>Integrated sensors for weather updates and more.</p>
-              </div>
-              <div className="text-center">
-                <img src="/images/style.svg" alt="Style" className="mx-auto w-16 mb-4" />
-                <h3 className="text-xl font-semibold">Stylish Design</h3>
-                <p>Modern aesthetics for the fashion-forward user.</p>
-              </div>
+        <section className="relative py-24 sm:py-32 bg-blue-50">
+  <MaxWidthWrapper className="flex flex-col items-center gap-16 sm:gap-20">
+    <div>
+      <h2 className="text-center text-base font-semibold text-blue-600">
+        Unparalleled Climate Control
+      </h2>
+      <HeadingText className="text-center">Stay Comfortable, Whatever the Weather</HeadingText>
+    </div>
+
+    <div className="grid gap-4 lg:grid-cols-3 lg:grid-rows-2">
+      {/* Cooling System with Fan */}
+      <div className="relative lg:row-span-2">
+        <div className="absolute inset-px rounded-lg bg-white lg:rounded-l-[2rem]" />
+
+        <div className="relative flex h-full flex-col overflow-hidden rounded-lg lg:rounded-l-2xl shadow-lg">
+          <div className="px-8 pb-3 pt-8 sm:px-10 sm:pb-0 sm:pt-10">
+            <p className="text-lg font-medium tracking-tight text-blue-950">
+              Cooling System with Fan
+            </p>
+            <p className="mt-2 text-sm text-gray-600">
+              Beat the heat with a built-in fan and detachable bottle, providing a refreshing mist to keep you cool in hot weather.
+            </p>
+          </div>
+          <div className="relative min-h-[30rem] w-full grow">
+            <div className="absolute inset-x-10 bottom-0 top-10 overflow-hidden rounded-t-xl bg-gray-900 shadow-2xl">
+              <Image
+                className="object-cover object-top"
+                src="/cooling.jpg"
+                alt="Cooling system interface"
+                fill
+              />
             </div>
           </div>
+        </div>
+
+        <div className="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5 lg:rounded-l-2xl" />
+      </div>
+
+      {/* Humidity Control */}
+      <div className="relative max-lg:row-start-1">
+        <div className="absolute inset-px rounded-lg bg-white max-lg:rounded-t-2xl" />
+        <div className="relative flex h-full flex-col overflow-hidden rounded-lg shadow-lg max-lg:rounded-t-2xl">
+          <div className="px-8 pt-8 sm:px-10 sm:pt-10">
+            <p className="text-lg font-medium tracking-tight text-blue-950">
+              Humidity Control
+            </p>
+            <p className="mt-2 text-sm text-gray-600">
+              Maintain optimal humidity under the umbrella, ensuring a comfortable environment no matter the heat.
+            </p>
+          </div>
+          <div className="flex flex-1 items-center justify-center px-8 sm:px-10 lg:pb-2">
+            <Image
+              className="w-full max-lg:max-w-xs"
+              src="/humidity.jpg"
+              alt="Humidity control interface"
+              width={500}
+              height={300}
+            />
+          </div>
+        </div>
+
+        <div className="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5 max-lg:rounded-t-2xl" />
+      </div>
+
+      {/* Water Storage for Cold Weather */}
+      <div className="relative max-lg:row-start-3 lg:col-start-2 lg:row-start-2">
+        <div className="absolute inset-px rounded-lg bg-white" />
+        <div className="relative flex h-full flex-col overflow-hidden rounded-lg shadow-lg">
+          <div className="px-8 pt-8 sm:px-10 sm:pt-10">
+            <p className="text-lg font-medium tracking-tight text-blue-950">
+              Water Storage for Cold Weather
+            </p>
+            <p className="mt-2 text-sm text-gray-600">
+              Use the detachable bottle to store water, ensuring hydration or utility when it's cold and hydration needs arise.
+            </p>
+          </div>
+          <div className="flex flex-1 items-center justify-center px-8 sm:px-10 lg:pb-2">
+            <Image
+              className="w-full max-lg:max-w-xs"
+              src="/bottles.jpg"
+              alt="Water storage system"
+              width={500}
+              height={300}
+            />
+          </div>
+        </div>
+
+        <div className="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5" />
+      </div>
+
+      {/* Versatile & Portable Design */}
+      <div className="relative lg:row-span-2">
+        <div className="absolute inset-px rounded-lg bg-white max-lg:rounded-b-2xl lg:rounded-r-2xl" />
+        <div className="relative flex h-full flex-col overflow-hidden rounded-lg shadow-lg max-lg:rounded-b-2xl lg:rounded-r-2xl">
+          <div className="px-8 pb-3 pt-8 sm:px-10 sm:pb-0 sm:pt-10">
+            <p className="text-lg font-medium tracking-tight text-blue-950">
+              Versatile & Portable Design
+            </p>
+            <p className="mt-2 text-sm text-gray-600">
+              Lightweight and compact, the Liyu Umbrella is easy to carry and store, perfect for on-the-go lifestyles.
+            </p>
+          </div>
+          <div className="relative min-h-[30rem] w-full grow">
+            <div className="absolute bottom-0 left-10 right-0 top-10 overflow-hidden rounded-tl-xl bg-gray-900 shadow-2xl">
+              <Image
+                className="object-cover object-center"
+                src="/um.avif"
+                alt="Portable design interface"
+                fill
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5 max-lg:rounded-b-2xl lg:rounded-r-2xl" />
+      </div>
+    </div>
+  </MaxWidthWrapper>
         </section>
 
         {/* Features Section */}
-        <section className="py-16 bg-gray-100">
-          <div className="container mx-auto px-6">
-            <h2 className="text-4xl font-bold text-center mb-8">Features</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="flex items-center space-x-4">
-                <img src="/images/windproof.svg" alt="Windproof" className="w-12" />
-                <div>
-                  <h3 className="text-xl font-semibold">Windproof Design</h3>
-                  <p>Withstands powerful winds without flipping inside out.</p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-4">
-                <img src="/images/lightweight.svg" alt="Lightweight" className="w-12" />
-                <div>
-                  <h3 className="text-xl font-semibold">Lightweight and Compact</h3>
-                  <p>Easy to carry and store, perfect for on-the-go users.</p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-4">
-                <img src="/images/water-resistant.svg" alt="Water Resistant" className="w-12" />
-                <div>
-                  <h3 className="text-xl font-semibold">Advanced Water Resistance</h3>
-                  <p>Superior protection to keep you dry at all times.</p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-4">
-                <img src="/images/auto-open-close.svg" alt="Auto Open/Close" className="w-12" />
-                <div>
-                  <h3 className="text-xl font-semibold">Automatic Open/Close</h3>
-                  <p>Convenience at the push of a button.</p>
-                </div>
-              </div>
-            </div>
+        <MaxWidthWrapper>
+        <section className="py-16 bg-gray-50">
+         <HeadingText className="text-5xl font-extrabold text-center text-gray-900 mb-24">Key Features</HeadingText>
+          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8 max-w-6xl mx-auto">
+    {features.map((feature, index) => (
+      <li key={index} className="flex flex-col items-start p-6 bg-white rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl">
+        <div className="flex items-center justify-center w-12 h-12 bg-blue-500 text-white rounded-full mb-4">
+          {feature.icon}
+        </div>
+        <div>
+          <h1 className="text-xl font-semibold text-gray-800 mb-2">{feature.title}</h1>
+          <p className="text-gray-600 leading-relaxed">{feature.description}</p>
+        </div>
+      </li>
+    ))}
+          </ul>
+          <div className='flex justify-center mt-5 items-center'>
+            <button 
+            onClick={handleOrderNowClick} 
+            className=  "group w-60 h-16 mt-5 relative flex transform items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-md border border-white bg-blue-700 px-8 text-base/7 font-medium text-white transition-all duration-300 hover:ring-2 hover:ring-blue-700 hover:ring-offset-2 focus:outline-none focus:ring-2 focus:ring-offset-2"
+          >
+              Get Yours Today!
+              <div className="ease-[cubic-bezier(0.19,1,0.22,1)] absolute -left-[75px] -top-[50px] -z-10 h-[155px] w-8 rotate-[35deg] bg-white opacity-20 transition-all duration-500 group-hover:left-[120px]" />
+            </button>
+            <OrderModal isOpen={isModalOpen} onClose={handleCloseModal} />
           </div>
         </section>
-
-        {/* Testimonials Section */}
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-6">
-            <h2 className="text-4xl font-bold text-center mb-8">Testimonials</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="p-6 border border-gray-200 rounded-lg shadow-sm">
-                <p className="italic mb-4">"This umbrella has been a lifesaver! It’s incredibly durable and the smart features are so handy."</p>
-                <h4 className="font-bold">- Jessica T.</h4>
-              </div>
-              <div className="p-6 border border-gray-200 rounded-lg shadow-sm">
-                <p className="italic mb-4">"I’ve never seen an umbrella like this. Stylish, tech-savvy, and it works perfectly in rough weather!"</p>
-                <h4 className="font-bold">- Michael B.</h4>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Call to Action Section */}
-        <section className="py-16 bg-blue-600 text-white">
-          <div className="container mx-auto text-center">
-            <h2 className="text-4xl font-bold mb-6">Get Yours Today!</h2>
-            <p className="text-lg mb-8">Don’t miss out on the umbrella that’s transforming the way we face the rain.</p>
-            <Button className="bg-white text-blue-600 hover:bg-blue-200 px-8 py-3">Shop Now</Button>
-          </div>
-        </section>
-
-        {/* Contact Section */}
-        <section className="py-16 bg-gray-100">
-          <div className="container mx-auto px-6 text-center">
-            <h2 className="text-4xl font-bold mb-6">Contact Us</h2>
-            <p className="text-lg mb-8">Have any questions or need assistance? We’re here to help.</p>
-            <form className="max-w-md mx-auto space-y-4">
-              <input type="text" placeholder="Your Name" className="w-full p-3 border border-gray-300 rounded-lg" />
-              <input type="email" placeholder="Your Email" className="w-full p-3 border border-gray-300 rounded-lg" />
-              <textarea placeholder="Your Message" className="w-full p-3 border border-gray-300 rounded-lg" rows="5"></textarea>
-              <Button className="w-full bg-blue-600 text-white hover:bg-blue-700 px-6 py-3">Send Message</Button>
-            </form>
-          </div>
-        </section>
+        </MaxWidthWrapper>
       </main>
 
-      <footer className="py-6 bg-blue-800 text-white text-center">
-        <p>&copy; {new Date().getFullYear()} Innovative Umbrella. All Rights Reserved.</p>
+      <footer className="py-6  text-gray-600 text-center">
+        <p>&copy; {new Date().getFullYear()} Liyu Umbrella. All Rights Reserved.</p>
       </footer>
-    </div>
+    </>
   );
 }
+
+
+
+import React, { useState } from 'react';
+
+const OrderModal = ({ isOpen, onClose }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
+        <h2 className="text-2xl font-bold mb-4">Place Your Order</h2>
+        <form className="space-y-4">
+          <input type="text" placeholder="Your Name" className="w-full p-3 border border-gray-300 rounded-lg" />
+          <input type="email" placeholder="Your Email" className="w-full p-3 border border-gray-300 rounded-lg" />
+          <input type="number" placeholder="Phone Number" className="w-full p-3 border border-gray-300 rounded-lg" />
+          <input type="text" placeholder="Product Name" className="w-full p-3 border border-gray-300 rounded-lg" />
+          <input type="number" placeholder="Quantity" className="w-full p-3 border border-gray-300 rounded-lg" />
+          <button type="submit" className="w-full bg-blue-600 text-white hover:bg-blue-700 rounded-lg px-6 py-3">
+            Submit Order
+          </button>
+        </form>
+        <button className="mt-4 text-blue-600 hover:underline" onClick={onClose}>
+          Cancel
+        </button>
+      </div>
+    </div>
+  );
+};
