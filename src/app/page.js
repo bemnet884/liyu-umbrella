@@ -3,7 +3,7 @@ import HeadingText from '@/components/HeadingText';
 import MaxWidthWrapper from '@/components/MaxWidthWrapper';
 import { ShineyButton } from '@/components/shaynibutton';
 import { buttonVariants } from '@/components/ui/button';
-import { Box, Check, Keyboard, PillBottle, Star, Umbrella, Wind, WindIcon } from 'lucide-react';
+import { Badge, Box, Check, Keyboard, PillBottle, Star, Umbrella, Wind, WindIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -32,9 +32,9 @@ const features = [
     icon: <Umbrella/>, // Lucid icon for umbrella
   },
   {
-    title: "Automatic Open/Close",
-    description: "Effortlessly open and close the umbrella with a simple push of a button for quick use.",
-    icon: <Keyboard/>, // Lucid icon for keyboard (to symbolize the button mechanism)
+    title: "Pouch Bag",
+    description: "A convenient pouch bag to hold both the umbrella and detachable bottle, making it easy to carry.",
+    icon: <Badge/>, // Example icon, replace with actual image or icon component
   },
   {
     title: "Detachable Bottle System",
@@ -67,11 +67,11 @@ export default function Home() {
       <div className="absolute inset-0 bg-black/50"></div> {/* Overlay for better text readability */}
       
       <div className="relative z-10 max-w-3xl mx-auto px-6 md:px-12 text-center">
-        <h1 className="text-4xl sm:text-5xl font-bold leading-tight">
-          <span className="text-blue-300 font-mono">Revolutionize</span> Your Rainy Days
+            <h1 className="text-4xl sm:text-5xl font-bold leading-tight">
+              Your Personal <span className="text-blue-300 font-mono">Oasis</span> 
         </h1>
         <p className="mt-5 text-lg sm:text-xl text-white/90">
-          Experience the Liyu Umbrella with its detachable bottle system designed to refresh you in hot weather and store water during cold seasons.
+        stay  cool and comfortable in any weather with fine mist techinology, designed to be your personal oasis
         </p>
 
         <div className="w-full max-w-xs mt-8 mx-auto">
@@ -209,33 +209,34 @@ export default function Home() {
 
         {/* Features Section */}
         <MaxWidthWrapper>
-        <section className="py-16 bg-gray-50">
-         <HeadingText className="text-5xl font-extrabold text-center text-gray-900 mb-24">Key Features</HeadingText>
-          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8 max-w-6xl mx-auto">
-    {features.map((feature, index) => (
-      <li key={index} className="flex flex-col items-start p-6 bg-white rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl">
-        <div className="flex items-center justify-center w-12 h-12 bg-blue-500 text-white rounded-full mb-4">
-          {feature.icon}
-        </div>
-        <div>
-          <h1 className="text-xl font-semibold text-gray-800 mb-2">{feature.title}</h1>
-          <p className="text-gray-600 leading-relaxed">{feature.description}</p>
-        </div>
-      </li>
-    ))}
-          </ul>
-          <div className='flex justify-center mt-5 items-center'>
-            <button 
-            onClick={handleOrderNowClick} 
-            className=  "group w-60 h-16 mt-5 relative flex transform items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-md border border-white bg-blue-700 px-8 text-base/7 font-medium text-white transition-all duration-300 hover:ring-2 hover:ring-blue-700 hover:ring-offset-2 focus:outline-none focus:ring-2 focus:ring-offset-2"
-          >
-              Get Yours Today!
-              <div className="ease-[cubic-bezier(0.19,1,0.22,1)] absolute -left-[75px] -top-[50px] -z-10 h-[155px] w-8 rotate-[35deg] bg-white opacity-20 transition-all duration-500 group-hover:left-[120px]" />
-            </button>
-            <OrderModal isOpen={isModalOpen} onClose={handleCloseModal} />
+  <section className="py-16 bg-gray-50">
+    <HeadingText className="text-5xl font-extrabold text-center text-gray-900 mb-24">Key Features</HeadingText>
+    <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8 max-w-6xl mx-auto">
+      {features.map((feature, index) => (
+        <li key={index} className="flex flex-col items-start p-6 bg-white rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl">
+          <div className="flex items-center justify-center w-12 h-12 bg-blue-500 text-white rounded-full mb-4">
+            {feature.icon} {/* Icon */}
           </div>
-        </section>
-        </MaxWidthWrapper>
+          <div>
+            <h1 className="text-xl font-semibold text-gray-800 mb-2">{feature.title}</h1>
+            <p className="text-gray-600 leading-relaxed">{feature.description}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+    <div className="flex justify-center mt-5 items-center">
+      <button 
+        onClick={handleOrderNowClick} 
+        className="group w-60 h-16 mt-5 relative flex transform items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-md border border-white bg-blue-700 px-8 text-base/7 font-medium text-white transition-all duration-300 hover:ring-2 hover:ring-blue-700 hover:ring-offset-2 focus:outline-none focus:ring-2 focus:ring-offset-2"
+      >
+        Get Yours Today!
+        <div className="ease-[cubic-bezier(0.19,1,0.22,1)] absolute -left-[75px] -top-[50px] -z-10 h-[155px] w-8 rotate-[35deg] bg-white opacity-20 transition-all duration-500 group-hover:left-[120px]" />
+      </button>
+      <OrderModal isOpen={isModalOpen} onClose={handleCloseModal} />
+    </div>
+  </section>
+</MaxWidthWrapper>
+
       </main>
 
       <footer className="py-6  text-gray-600 text-center">
