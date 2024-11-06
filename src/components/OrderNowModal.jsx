@@ -1,7 +1,7 @@
 "use client";
 import { useState } from 'react';
 
-const OrderModal = ({ isOpen, onClose }) => {
+export const OrderModal = ({ isOpen, onClose }) => {
   const [orderType, setOrderType] = useState('single');
   const [formData, setFormData] = useState({
     name: '',
