@@ -56,7 +56,7 @@ export default function Home() {
     <>
       <main className="min-h-screen">
         {/* Hero Section */}
-        <section className="relative flex items-center justify-center text-white py-20 min-h-screen bg-cover bg-center" style={{ backgroundImage: "url('/anenna.jpg')" }}>
+       <section className="relative flex items-center justify-center text-white py-20 min-h-screen bg-contain bg-center" style={{ backgroundImage: "url('/anenna.jpg')" }}>
           <div className="absolute inset-0 bg-black/70"></div> {/* Overlay for better text readability */}
           <div className="relative z-10 max-w-3xl mx-auto px-6 md:px-12 text-center">
             <h1 className="text-5xl font-extrabold leading-tight">
