@@ -1,7 +1,61 @@
+"use client";
 import { useState } from 'react';
 
-export const OrderModal = ({ isOpen, onClose }) => {
-  const [orderType, setOrderType] = useState('single'); // "single" for individual, "bulk" for bulk orders
+const OrderModal = ({ isOpen, onClose }) => {
+  const [orderType, setOrderType] = useState('single');
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    model: '',
+    quantity: '',
+    shopName: '',
+    zones: { ZoneA: '', ZoneB: '', ZoneC: '' },
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleZoneChange = (zone, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      zones: {
+        ...prev.zones,
+        [zone]: value,
+      },
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('/api/sendOrder', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          orderType,
+          ...formData,
+        }),
+      });
+      const result = await response.json();
+      if (response.ok) {
+        alert(result.message);
+        onClose();
+      } else {
+        alert(result.message);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Failed to submit order');
+    }
+  };
 
   if (!isOpen) return null;
 
@@ -15,7 +69,7 @@ export const OrderModal = ({ isOpen, onClose }) => {
           <button
             onClick={() => setOrderType('single')}
             className={`px-4 py-2 rounded-lg font-medium transition ${
-              orderType === 'single' ? 'bg-yellow-600 text-white' : 'bg-gray-200 text-gray-700'
+              orderType === 'single' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'
             }`}
           >
             Single Order
@@ -23,99 +77,51 @@ export const OrderModal = ({ isOpen, onClose }) => {
           <button
             onClick={() => setOrderType('bulk')}
             className={`px-4 py-2 rounded-lg font-medium transition ${
-              orderType === 'bulk' ? 'bg-yellow-600 text-white' : 'bg-gray-200 text-gray-700'
+              orderType === 'bulk' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'
             }`}
           >
             Bulk Order
           </button>
         </div>
 
-        {/* Single Order Form */}
-        {orderType === 'single' && (
-          <form className="space-y-4">
-            <input
-              type="text"
-              placeholder="Your Name"
-              className="w-full p-3 border border-gray-300 rounded-lg"
-            />
-            <input
-              type="email"
-              placeholder="Your Email"
-              className="w-full p-3 border border-gray-300 rounded-lg"
-            />
-            <input
-              type="number"
-              placeholder="Phone Number"
-              className="w-full p-3 border border-gray-300 rounded-lg"
-            />
-            <input
-              type="text"
-              placeholder="Umbrella Model"
-              className="w-full p-3 border border-gray-300 rounded-lg"
-            />
-            <input
-              type="number"
-              placeholder="Quantity"
-              className="w-full p-3 border border-gray-300 rounded-lg"
-            />
-            <button type="submit" className="w-full bg-blue-600 text-white hover:bg-blue-700 rounded-lg px-6 py-3">
-              Submit Single Order
-            </button>
-          </form>
-        )}
+        {/* Form Submission */}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {orderType === 'single' ? (
+            <>
+              <input type="text" name="name" placeholder="Your Name" onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
+              <input type="email" name="email" placeholder="Your Email" onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
+              <input type="number" name="phone" placeholder="Phone Number" onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
+              <input type="text" name="model" placeholder="Umbrella Model" onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
+              <input type="number" name="quantity" placeholder="Quantity" onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
+            </>
+          ) : (
+            <>
+              <input type="text" name="shopName" placeholder="Shop Name" onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
+              <input type="email" name="email" placeholder="Shop Email" onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
+              <input type="number" name="phone" placeholder="Phone Number" onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
+              <input type="text" name="model" placeholder="Umbrella Model" onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
 
-        {/* Bulk Order Form */}
-        {orderType === 'bulk' && (
-          <form className="space-y-4">
-            <input
-              type="text"
-              placeholder="Shop Name"
-              className="w-full p-3 border border-gray-300 rounded-lg"
-            />
-            <input
-              type="email"
-              placeholder="Shop Email"
-              className="w-full p-3 border border-gray-300 rounded-lg"
-            />
-            <input
-              type="number"
-              placeholder="Phone Number"
-              className="w-full p-3 border border-gray-300 rounded-lg"
-            />
-            <input
-              type="text"
-              placeholder="Umbrella Model"
-              className="w-full p-3 border border-gray-300 rounded-lg"
-            />
+              {/* Zone Quantities */}
+              <div className="space-y-2">
+                <h3 className="text-lg font-semibold">Quantity by Zone</h3>
+                {Object.keys(formData.zones).map((zone) => (
+                  <input
+                    key={zone}
+                    type="number"
+                    placeholder={`Quantity for ${zone}`}
+                    value={formData.zones[zone]}
+                    onChange={(e) => handleZoneChange(zone, e.target.value)}
+                    className="w-full p-3 border border-gray-300 rounded-lg"
+                  />
+                ))}
+              </div>
+            </>
+          )}
+          <button type="submit" className="w-full bg-blue-600 text-white hover:bg-blue-700 rounded-lg px-6 py-3">
+            Submit {orderType === 'single' ? 'Single Order' : 'Bulk Order'}
+          </button>
+        </form>
 
-            {/* Quantity per Zone */}
-            <div className="space-y-2">
-              <h3 className="text-lg font-semibold">Quantity by Zone</h3>
-              <input
-                type="number"
-                placeholder="Quantity for Zone A"
-                className="w-full p-3 border border-gray-300 rounded-lg"
-              />
-              <input
-                type="number"
-                placeholder="Quantity for Zone B"
-                className="w-full p-3 border border-gray-300 rounded-lg"
-              />
-              <input
-                type="number"
-                placeholder="Quantity for Zone C"
-                className="w-full p-3 border border-gray-300 rounded-lg"
-              />
-              {/* Add more zones as needed */}
-            </div>
-
-            <button type="submit" className="w-full bg-blue-600 text-white hover:bg-blue-700 rounded-lg px-6 py-3">
-              Submit Bulk Order
-            </button>
-          </form>
-        )}
-
-        {/* Close Button */}
         <button className="mt-4 text-blue-600 hover:underline" onClick={onClose}>
           Cancel
         </button>
