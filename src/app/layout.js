@@ -1,5 +1,6 @@
 import localFont from "next/font/local";
 import "./globals.css";
+import Navbar from "@/components/Navbar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -14,7 +15,7 @@ const geistMono = localFont({
 
 export const metadata = {
   title: "Liyu Umbrella",
-  description: "Experience the most advanced umbrella with cutting-edge technology, durability, and style.",
+  description: "Stay cool and comfortable in any weather with fine mist technology, designed to be your personal oasis.",
 };
 
 export default function RootLayout({ children }) {
@@ -23,6 +24,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased grainy`}
       >
+        <Navbar/>
         {children}
       </body>
     </html>
