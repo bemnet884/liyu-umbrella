@@ -1,5 +1,5 @@
-"use client";
 import { useState } from 'react';
+import emailjs from 'emailjs-com';
 
 export const OrderModal = ({ isOpen, onClose }) => {
   const [orderType, setOrderType] = useState('single');
@@ -10,7 +10,7 @@ export const OrderModal = ({ isOpen, onClose }) => {
     model: '',
     quantity: '',
     shopName: '',
-    zones: { ZoneA: '', ZoneB: '', ZoneC: '' },
+    zones: { zoneA: '', zoneB: '', zoneC: '' },
   });
 
   const handleChange = (e) => {
@@ -21,40 +21,46 @@ export const OrderModal = ({ isOpen, onClose }) => {
     }));
   };
 
-  const handleZoneChange = (zone, value) => {
+  const handleZoneChange = (e) => {
+    const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      zones: {
-        ...prev.zones,
-        [zone]: value,
-      },
+      zones: { ...prev.zones, [name]: value },
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch('/api/sendOrder', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          orderType,
-          ...formData,
-        }),
-      });
-      const result = await response.json();
-      if (response.ok) {
-        alert(result.message);
+   const templateParams = {
+      owner_name: 'Liyu Umbrella Manufacturer', // Can be a static value
+      order_type: orderType === 'single' ? 'Single Order' : 'Bulk Order',
+      sender_name: formData.name || formData.shopName,
+      sender_email: formData.email,
+      phone: formData.phone,
+      umbrella_model: formData.model,
+      quantity: formData.quantity,
+      zone_a: formData.zones.zoneA,
+      zone_b: formData.zones.zoneB,
+      zone_c: formData.zones.zoneC,
+};
+
+
+    emailjs
+      .send(
+        'service_woj3sk9',    // Replace with your EmailJS Service ID
+        'template_fbcq5pt',    // Replace with your EmailJS Template ID
+        templateParams,
+        '5njePOeA6jKl3xD86'         // Replace with your EmailJS User ID
+      )
+      .then((response) => {
+        console.log('Email sent successfully:', response.status, response.text);
+        alert('Order submitted successfully!');
         onClose();
-      } else {
-        alert(result.message);
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      alert('Failed to submit order');
-    }
+      })
+      .catch((error) => {
+        console.error('Error sending email:', error);
+        alert('Failed to submit order. Please try again.');
+      });
   };
 
   if (!isOpen) return null;
@@ -63,8 +69,6 @@ export const OrderModal = ({ isOpen, onClose }) => {
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
         <h2 className="text-2xl font-bold mb-4">Place Your Order</h2>
-
-        {/* Order Type Toggle */}
         <div className="flex space-x-4 mb-6">
           <button
             onClick={() => setOrderType('single')}
@@ -84,41 +88,33 @@ export const OrderModal = ({ isOpen, onClose }) => {
           </button>
         </div>
 
-        {/* Form Submission */}
         <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Single Order Form Fields */}
           {orderType === 'single' ? (
             <>
-              <input type="text" name="name" placeholder="Your Name" onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
-              <input type="email" name="email" placeholder="Your Email" onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
-              <input type="number" name="phone" placeholder="Phone Number" onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
-              <input type="text" name="model" placeholder="Umbrella Model" onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
-              <input type="number" name="quantity" placeholder="Quantity" onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
+              <input type="text" name="name" placeholder="Your Name" value={formData.name} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
+              <input type="email" name="email" placeholder="Your Email" value={formData.email} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
+              <input type="number" name="phone" placeholder="Phone Number" value={formData.phone} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
+              <input type="text" name="model" placeholder="Umbrella Model" value={formData.model} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
+              <input type="number" name="quantity" placeholder="Quantity" value={formData.quantity} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
             </>
           ) : (
             <>
-              <input type="text" name="shopName" placeholder="Shop Name" onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
-              <input type="email" name="email" placeholder="Shop Email" onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
-              <input type="number" name="phone" placeholder="Phone Number" onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
-              <input type="text" name="model" placeholder="Umbrella Model" onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
-
-              {/* Zone Quantities */}
+              {/* Bulk Order Form Fields */}
+              <input type="text" name="shopName" placeholder="Shop Name" value={formData.shopName} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
+              <input type="email" name="email" placeholder="Shop Email" value={formData.email} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
+              <input type="number" name="phone" placeholder="Phone Number" value={formData.phone} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
+              <input type="text" name="model" placeholder="Umbrella Model" value={formData.model} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
               <div className="space-y-2">
                 <h3 className="text-lg font-semibold">Quantity by Zone</h3>
-                {Object.keys(formData.zones).map((zone) => (
-                  <input
-                    key={zone}
-                    type="number"
-                    placeholder={`Quantity for ${zone}`}
-                    value={formData.zones[zone]}
-                    onChange={(e) => handleZoneChange(zone, e.target.value)}
-                    className="w-full p-3 border border-gray-300 rounded-lg"
-                  />
-                ))}
+                <input type="number" name="zoneA" placeholder="Quantity for Zone A" value={formData.zones.zoneA} onChange={handleZoneChange} className="w-full p-3 border border-gray-300 rounded-lg" />
+                <input type="number" name="zoneB" placeholder="Quantity for Zone B" value={formData.zones.zoneB} onChange={handleZoneChange} className="w-full p-3 border border-gray-300 rounded-lg" />
+                <input type="number" name="zoneC" placeholder="Quantity for Zone C" value={formData.zones.zoneC} onChange={handleZoneChange} className="w-full p-3 border border-gray-300 rounded-lg" />
               </div>
             </>
           )}
           <button type="submit" className="w-full bg-blue-600 text-white hover:bg-blue-700 rounded-lg px-6 py-3">
-            Submit {orderType === 'single' ? 'Single Order' : 'Bulk Order'}
+            Submit {orderType === 'single' ? 'Single' : 'Bulk'} Order
           </button>
         </form>
 
@@ -129,5 +125,3 @@ export const OrderModal = ({ isOpen, onClose }) => {
     </div>
   );
 };
-
-export default OrderModal;
