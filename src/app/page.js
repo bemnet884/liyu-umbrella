@@ -104,9 +104,6 @@ export default function Home() {
         <Features/>
       </main>
 
-      <footer className="py-6 bg-blue-600/75 text-white text-center">
-        <p>&copy; {new Date().getFullYear()} Liyu Umbrella. All Rights Reserved.</p>
-      </footer>
     </>
   );
 }

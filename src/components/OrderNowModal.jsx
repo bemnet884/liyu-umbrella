@@ -115,23 +115,23 @@ export const OrderModal = ({ isOpen, onClose }) => {
         <form onSubmit={handleSubmit} className="space-y-4">
           {orderType === 'single' ? (
             <>
-              <input type="text" name="name" placeholder="Your Name" value={formData.name} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
-              <input type="email" name="email" placeholder="Your Email" value={formData.email} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
-              <input type="number" name="phone" placeholder="Phone Number" value={formData.phone} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
-              <input type="text" name="model" placeholder="Umbrella Model" value={formData.model} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
-              <input type="number" name="quantity" placeholder="Quantity" value={formData.quantity} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
+              <input type="text" name="name" placeholder="Your Name" value={formData.name} onChange={handleChange} className="w-full p-3 border text-black border-gray-300 rounded-lg" />
+              <input type="email" name="email" placeholder="Your Email" value={formData.email} onChange={handleChange} className="w-full p-3 border text-black border-gray-300 rounded-lg" />
+              <input type="number" name="phone" placeholder="Phone Number" value={formData.phone} onChange={handleChange} className="w-full p-3 border text-black border-gray-300 rounded-lg" />
+              <input type="text" name="model" placeholder="Umbrella Model" value={formData.model} onChange={handleChange} className="w-full p-3 border text-black border-gray-300 rounded-lg" />
+              <input type="number" name="quantity" placeholder="Quantity" value={formData.quantity} onChange={handleChange} className="w-full p-3 border text-black border-gray-300 rounded-lg" />
             </>
           ) : (
             <>
-              <input type="text" name="shopName" placeholder="Shop Name" value={formData.shopName} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
+              <input type="text" name="shopName" placeholder="Shop Name" value={formData.shopName} onChange={handleChange} className="w-full p-3 border text-black border-gray-300 rounded-lg" />
               <input type="email" name="email" placeholder="Shop Email" value={formData.email} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
-              <input type="number" name="phone" placeholder="Phone Number" value={formData.phone} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
-              <input type="text" name="model" placeholder="Umbrella Model" value={formData.model} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
+              <input type="number" name="phone" placeholder="Phone Number" value={formData.phone} onChange={handleChange} className="w-full p-3 border text-black border-gray-300 rounded-lg" />
+              <input type="text" name="model" placeholder="Umbrella Model" value={formData.model} onChange={handleChange} className="w-full p-3 border text-black border-gray-300 rounded-lg" />
               <div className="space-y-2">
                 <h3 className="text-lg font-semibold">Quantity by Zone</h3>
-                <input type="number" name="zoneA" placeholder="Quantity for Zone A" value={formData.zones.zoneA} onChange={handleZoneChange} className="w-full p-3 border border-gray-300 rounded-lg" />
-                <input type="number" name="zoneB" placeholder="Quantity for Zone B" value={formData.zones.zoneB} onChange={handleZoneChange} className="w-full p-3 border border-gray-300 rounded-lg" />
-                <input type="number" name="zoneC" placeholder="Quantity for Zone C" value={formData.zones.zoneC} onChange={handleZoneChange} className="w-full p-3 border border-gray-300 rounded-lg" />
+                <input type="number" name="zoneA" placeholder="Quantity for Zone A" value={formData.zones.zoneA} onChange={handleZoneChange} className="w-full p-3 border text-black border-gray-300 rounded-lg" />
+                <input type="number" name="zoneB" placeholder="Quantity for Zone B" value={formData.zones.zoneB} onChange={handleZoneChange} className="w-full p-3 border  text-black border-gray-300 rounded-lg" />
+                <input type="number" name="zoneC" placeholder="Quantity for Zone C" value={formData.zones.zoneC} onChange={handleZoneChange} className="w-full p-3 border text-black border-gray-300 rounded-lg" />
               </div>
             </>
           )}
