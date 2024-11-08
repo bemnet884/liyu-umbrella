@@ -1,6 +1,30 @@
 import { useState } from 'react';
 import emailjs from 'emailjs-com';
 
+const SuccessModal = ({ message, onClose }) => (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full text-center">
+      <h3 className="text-2xl font-bold text-green-600 mb-4">Success</h3>
+      <p className="text-gray-700 mb-6">{message}</p>
+      <button onClick={onClose} className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+        Close
+      </button>
+    </div>
+  </div>
+);
+
+const ErrorModal = ({ message, onClose }) => (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full text-center">
+      <h3 className="text-2xl font-bold text-red-600 mb-4">Error</h3>
+      <p className="text-gray-700 mb-6">{message}</p>
+      <button onClick={onClose} className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+        Close
+      </button>
+    </div>
+  </div>
+);
+
 export const OrderModal = ({ isOpen, onClose }) => {
   const [orderType, setOrderType] = useState('single');
   const [formData, setFormData] = useState({
@@ -12,6 +36,8 @@ export const OrderModal = ({ isOpen, onClose }) => {
     shopName: '',
     zones: { zoneA: '', zoneB: '', zoneC: '' },
   });
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,8 +57,8 @@ export const OrderModal = ({ isOpen, onClose }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-   const templateParams = {
-      owner_name: 'Liyu Umbrella Manufacturer', // Can be a static value
+    const templateParams = {
+      owner_name: 'Liyu Umbrella Manufacturer',
       order_type: orderType === 'single' ? 'Single Order' : 'Bulk Order',
       sender_name: formData.name || formData.shopName,
       sender_email: formData.email,
@@ -42,24 +68,22 @@ export const OrderModal = ({ isOpen, onClose }) => {
       zone_a: formData.zones.zoneA,
       zone_b: formData.zones.zoneB,
       zone_c: formData.zones.zoneC,
-};
-
+    };
 
     emailjs
       .send(
-        'service_woj3sk9',    // Replace with your EmailJS Service ID
-        'template_fbcq5pt',    // Replace with your EmailJS Template ID
+        'service_woj3sk9',   // Your EmailJS Service ID
+        'template_fbcq5pt',   // Your EmailJS Template ID
         templateParams,
-        '5njePOeA6jKl3xD86'         // Replace with your EmailJS User ID
+        '5njePOeA6jKl3xD86'   // Your EmailJS User ID
       )
       .then((response) => {
         console.log('Email sent successfully:', response.status, response.text);
-        alert('Order submitted successfully!');
-        onClose();
+        setSuccessMessage('Your order was submitted successfully!');
       })
       .catch((error) => {
         console.error('Error sending email:', error);
-        alert('Failed to submit order. Please try again.');
+        setErrorMessage('Failed to submit your order. Please try again.');
       });
   };
 
@@ -89,7 +113,6 @@ export const OrderModal = ({ isOpen, onClose }) => {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Single Order Form Fields */}
           {orderType === 'single' ? (
             <>
               <input type="text" name="name" placeholder="Your Name" value={formData.name} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
@@ -100,7 +123,6 @@ export const OrderModal = ({ isOpen, onClose }) => {
             </>
           ) : (
             <>
-              {/* Bulk Order Form Fields */}
               <input type="text" name="shopName" placeholder="Shop Name" value={formData.shopName} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
               <input type="email" name="email" placeholder="Shop Email" value={formData.email} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
               <input type="number" name="phone" placeholder="Phone Number" value={formData.phone} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg" />
@@ -122,6 +144,11 @@ export const OrderModal = ({ isOpen, onClose }) => {
           Cancel
         </button>
       </div>
+
+      {successMessage && <SuccessModal message={successMessage} onClose={() => setSuccessMessage('')} />}
+      {errorMessage && <ErrorModal message={errorMessage} onClose={() => setErrorMessage('')} />}
     </div>
   );
 };
+
+export default OrderModal;
